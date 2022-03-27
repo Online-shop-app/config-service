@@ -1,0 +1,47 @@
+plugins {
+    id 'org.springframework.boot' version '2.6.5'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+}
+
+group = 'com.rb.alwaysontheroad'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+    all {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    }
+}
+
+bootRun {
+    systemProperties = System.properties
+    jvmArgs = ['-Xms128M', '-Xmx256M', '-XX:ActiveProcessorCount=2', '-Dspring.profiles.active=local']
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext['log4j2.version'] = '2.17.0'
+
+ext {
+    set('springBootAdminVersion', "2.6.2")
+    set('springCloudVersion', "2021.0.1")
+}
+
+dependencies {
+    implementation 'org.springframework.cloud:spring-cloud-config-server'
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'de.codecentric:spring-boot-admin-starter-client'
+    implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "de.codecentric:spring-boot-admin-dependencies:${springBootAdminVersion}"
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}

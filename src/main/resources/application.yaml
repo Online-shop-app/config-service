@@ -1,0 +1,27 @@
+server.port: 8888
+
+eureka:
+  client:
+    registry-fetch-interval-seconds: 30
+  instance:
+    prefer-ip-address: true
+
+spring:
+  cloud:
+    config.server:
+      git:
+        uri: 'https://github.com/Online-shop-app/configs.git'
+        clone-on-start: true
+        default-label: develop
+        refreshRate: 5
+        username: '${ONLINE_SHOP_CONFIG_REPO_USERNAME}'
+        password: '${ONLINE_SHOP_CONFIG_REPO_TOKEN}'
+
+management:
+  endpoints.web.exposure.include: '*'
+  endpoint:
+    logfile:
+      external-file: ./logs/service.log
+      enabled: true
+    health.show-details: always
+    loggers.enabled: true
